@@ -366,10 +366,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ce49d52e75afa042ab85e819a02561d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 225
+  jumpForce: 275
   rotateForce: 250
   cooldown: 0.15
-  megaJumpCD: 1
+  megaJumpCD: 2
 --- !u!61 &701247994417272248
 BoxCollider2D:
   m_ObjectHideFlags: 0
