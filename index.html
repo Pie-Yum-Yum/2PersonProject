@@ -7,7 +7,11 @@
   </head>
   <body style="text-align: center; padding: 0; border: 0; margin: 0;">
     <canvas id="unity-canvas" width=960 height=600 tabindex="-1" style="width: 960px; height: 600px; background: #231F20"></canvas>
+<<<<<<< HEAD
+    <script src="Build/NewBuild.loader.js"></script>
+=======
     <script src="Build/NUBUILD.loader.js"></script>
+>>>>>>> 2378351d66305b6de312303ef6390af6c9649f25
     <script>
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         // Mobile device style: fill the whole browser client area with the game canvas:
@@ -26,9 +30,15 @@
 
       createUnityInstance(document.querySelector("#unity-canvas"), {
         arguments: [],
+<<<<<<< HEAD
+        dataUrl: "Build/NewBuild.data",
+        frameworkUrl: "Build/NewBuild.framework.js",
+        codeUrl: "Build/NewBuild.wasm",
+=======
         dataUrl: "Build/NUBUILD.data",
         frameworkUrl: "Build/NUBUILD.framework.js",
         codeUrl: "Build/NUBUILD.wasm",
+>>>>>>> 2378351d66305b6de312303ef6390af6c9649f25
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "PogoGame",
