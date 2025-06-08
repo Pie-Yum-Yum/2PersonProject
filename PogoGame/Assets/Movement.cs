@@ -25,7 +25,7 @@ public class Movement : MonoBehaviour
         {
             canJump = false;
             StartCoroutine(megaJumpCooldown());
-            rb.AddForce(transform.up * jumpForce);
+            rb.AddForce(transform.up * jumpForce * 1.5f);
         }
         if(Input.GetKey(KeyCode.R)) UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
         
