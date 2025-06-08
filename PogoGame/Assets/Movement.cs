@@ -1,0 +1,44 @@
+using UnityEngine;
+
+public class Movement : MonoBehaviour
+{
+    [SerializeField] float jumpForce = 5f;
+    [SerializeField] float rotateForce = 5f;
+
+    Rigidbody2D rb;
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>(); 
+    }
+
+    void FixedUpdate()
+    {
+        float rotation = 0;
+        if (Input.GetKey(KeyCode.D)) rotation--;
+        if (Input.GetKey(KeyCode.A)) rotation++;
+
+        rb.AddTorque(rotation * rotateForce);
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.CompareTag("Environment"))
+        {
+            float angle = Vector2.Angle(collision.contacts[0].normal, transform.up);
+
+            if (0f <= angle && angle < 90f)
+            {
+                //float jumpMult = (180f - angle) / 120f;
+                //jumpMult = Mathf.Clamp(jumpMult, 0f, 1f);
+                //Debug.Log("JUMP MULT: " + jumpMult);
+                float jumpMult = 1f;
+                rb.AddForce(transform.up * jumpForce * jumpMult);
+            }
+            else
+            {
+                Debug.Log("DIE DIE DIE");
+            }
+        }
+    }
+}
