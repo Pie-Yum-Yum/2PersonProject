@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    public static Movement Instance;
     [SerializeField] float jumpForce = 5f;
     [SerializeField] float rotateForce = 5f;
     [SerializeField] float cooldown = 0.15f;
@@ -13,14 +14,19 @@ public class Movement : MonoBehaviour
     bool canMegaJump = true;
     Rigidbody2D rb;
 
+    public bool active = true;
+
     void Awake()
     {
+        Instance = this;
         rb = GetComponent<Rigidbody2D>(); 
     }
 
     void Update()
     {
-        if (megaJumpTimer > 0f) {
+        if (!active) return;
+        if (megaJumpTimer > 0f)
+        {
             megaJumpTimer -= Time.deltaTime;
             if (megaJumpTimer <= 0f) canMegaJump = true;
         }
@@ -29,6 +35,7 @@ public class Movement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!active) return;
         float rotation = 0;
         if (Input.GetKey(KeyCode.D)) rotation--;
         if (Input.GetKey(KeyCode.A)) rotation++;
@@ -48,12 +55,14 @@ public class Movement : MonoBehaviour
     {
         if (collider.transform.CompareTag("finish"))
         {
+            active = false;
             GameUI.Instance.Win();
         }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        if (!active) return;
         if (collision.transform.CompareTag("Environment") && canJump)
         {
             canJump = false;

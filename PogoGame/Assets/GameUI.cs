@@ -30,7 +30,6 @@ public class GameUI : MonoBehaviour
 
     public void Win()
     {
-        Time.timeScale = 0f;
         completed = true;
         winUI.SetActive(true);
     }

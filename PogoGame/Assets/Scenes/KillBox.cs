@@ -14,9 +14,10 @@ public class KillBox : MonoBehaviour
 
     }
     
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (!Movement.Instance.active) return;
+        if (collider.gameObject.CompareTag("Player"))
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene(
                 UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
