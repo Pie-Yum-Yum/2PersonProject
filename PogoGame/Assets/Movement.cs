@@ -7,6 +7,7 @@ public class Movement : MonoBehaviour
     [SerializeField] float jumpForce = 5f;
     [SerializeField] float rotateForce = 5f;
     [SerializeField] float cooldown = 0.15f;
+    [SerializeField] float megaJumpCD = 3f;
     bool canJump = true;
     Rigidbody2D rb;
 
@@ -20,6 +21,14 @@ public class Movement : MonoBehaviour
         float rotation = 0;
         if (Input.GetKey(KeyCode.D)) rotation--;
         if (Input.GetKey(KeyCode.A)) rotation++;
+        if (Input.GetKey(KeyCode.Space) && canJump)
+        {
+            canJump = false;
+            StartCoroutine(megaJumpCooldown());
+            rb.AddForce(transform.up * jumpForce);
+        }
+        if(Input.GetKey(KeyCode.R)) UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+        
 
         rb.AddTorque(rotation * rotateForce);
     }
@@ -27,6 +36,12 @@ public class Movement : MonoBehaviour
     IEnumerator jumpCooldown()
     {
         yield return new WaitForSeconds(cooldown);
+        canJump = true;
+    }
+
+    IEnumerator megaJumpCooldown()
+    {
+        yield return new WaitForSeconds(megaJumpCD);
         canJump = true;
     }
 
@@ -48,7 +63,14 @@ public class Movement : MonoBehaviour
             else
             {
                 Debug.Log("DIE DIE DIE");
+                //gameObject.GetComponent<SpriteRenderer>().color = Color.red;
             }
+        }
+        else if (collision.transform.CompareTag("finish"))
+        {
+            // UnityEngine.SceneManagement.SceneManager.LoadScene(
+            // UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+            Debug.Log("WINNER WINNER CHICKEN DINNER");
         }
     }
 }
