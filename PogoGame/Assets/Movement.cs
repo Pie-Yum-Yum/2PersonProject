@@ -1,10 +1,13 @@
+using System.Collections;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
     [SerializeField] float jumpForce = 5f;
     [SerializeField] float rotateForce = 5f;
-
+    [SerializeField] float cooldown = 0.15f;
+    bool canJump = true;
     Rigidbody2D rb;
 
     void Awake()
@@ -21,18 +24,25 @@ public class Movement : MonoBehaviour
         rb.AddTorque(rotation * rotateForce);
     }
 
+    IEnumerator jumpCooldown()
+    {
+        yield return new WaitForSeconds(cooldown);
+        canJump = true;
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.CompareTag("Environment"))
+        if (collision.transform.CompareTag("Environment") && canJump)
         {
+            canJump = false;
+            StartCoroutine(jumpCooldown());
             float angle = Vector2.Angle(collision.contacts[0].normal, transform.up);
 
             if (0f <= angle && angle < 90f)
             {
-                //float jumpMult = (180f - angle) / 120f;
-                //jumpMult = Mathf.Clamp(jumpMult, 0f, 1f);
-                //Debug.Log("JUMP MULT: " + jumpMult);
-                float jumpMult = 1f;
+                float jumpMult = (180f - angle) / 120f;
+                jumpMult = Mathf.Clamp(jumpMult, 0f, 1f);
+                //float jumpMult = 1f;
                 rb.AddForce(transform.up * jumpForce * jumpMult);
             }
             else
